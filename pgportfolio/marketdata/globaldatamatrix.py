@@ -70,7 +70,9 @@ class HistoryManager:
         self.__checkperiod(period)
 
         time_index = pd.to_datetime(list(range(start, end+1, period)),unit='s')
-        panelxr = xr.DataArray(data=np.NaN, coords=[features, coins, time_index])
+        data = np.zeros((len(features), len(coins), len(time_index)))
+        data = data * np.NaN
+        panelxr = xr.DataArray(data=data, coords=[features, coins, time_index])
         connection = sqlite3.connect(DATABASE_DIR)
         try:
             for row_number, coin in enumerate(coins):
